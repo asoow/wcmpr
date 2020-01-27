@@ -1,0 +1,19 @@
+http://localhost {
+    root /wcmpr/www
+    index index.php index.html index.htm
+    gzip
+    rewrite {
+        to {path} {path}/ /index.php?s={uri}
+    }
+    fastcgi / 127.0.0.1:9000 php {
+        root /wcmpr/www
+    }
+    timeouts 1m
+    log /wcmpr/www/access.log
+    errors /wcmpr/www/error.log {
+        rotate_size 50  # 50M以后轮转
+        rotate_age  90  # 保持轮转文件90天
+        rotate_keep 20  # 最多保持20个日志文件
+        rotate_compress # 压缩gzip格式的轮转日志文件
+    }
+}
